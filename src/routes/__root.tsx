@@ -6,6 +6,9 @@ import appCss from "../styles.css?url";
 import "../App.css";
 import { getThemeServerFn } from "@/lib/theme";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ClerkProvider } from "@clerk/tanstack-react-start";
+import { NotFound } from "@/components/NotFound";
+import { dark } from "@clerk/themes";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -31,34 +34,41 @@ export const Route = createRootRoute({
 
   shellComponent: RootDocument,
   loader: () => getThemeServerFn(),
+  notFoundComponent: NotFound,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const theme = Route.useLoaderData();
   return (
-    <html lang="en" className={theme} suppressHydrationWarning>
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <ThemeProvider theme={theme}>
-          <div className="w-screen min-h-screen">
-            <main>{children}</main>
-          </div>
-        </ThemeProvider>
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
-        <Scripts />
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        theme: dark,
+      }}
+    >
+      <html lang="en" className={theme} suppressHydrationWarning>
+        <head>
+          <HeadContent />
+        </head>
+        <body>
+          <ThemeProvider theme={theme}>
+            <div className="w-screen min-h-screen">
+              <main>{children}</main>
+            </div>
+          </ThemeProvider>
+          <TanStackDevtools
+            config={{
+              position: "bottom-right",
+            }}
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+          <Scripts />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

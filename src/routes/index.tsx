@@ -1,6 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  SignedIn,
+  SignedOut,
+  SignIn,
+  UserButton,
+} from "@clerk/tanstack-react-start";
 import { useTheme } from "@/components/theme-provider";
 
 export const Route = createFileRoute("/")({
@@ -11,19 +15,16 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  const { theme, setTheme } = useTheme();
+  const {} = useTheme();
   return (
     <div>
       <p>home page</p>
-      <div className="w-xl mx-auto mt-4">
-        <Card className="rounded">card</Card>
-        <Button
-          type="button"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        >
-          Switch to {theme === "dark" ? "light" : "dark"}
-        </Button>
-      </div>
+      <SignedOut>
+        <SignIn forceRedirectUrl="/" />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
     </div>
   );
 }
