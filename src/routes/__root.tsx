@@ -1,4 +1,9 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
+import {
+  HeadContent,
+  Outlet,
+  Scripts,
+  createRootRouteWithContext,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 
@@ -6,55 +11,61 @@ import appCss from "../styles.css?url";
 import "../App.css";
 import { getThemeServerFn } from "@/lib/theme";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ClerkProvider } from "@clerk/tanstack-react-start";
 import { NotFound } from "@/components/NotFound";
-import { dark } from "@clerk/themes";
+import { QueryClient } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/sonner";
+import { Providers } from "@/components/providers";
+import { AuthLoading } from "convex/react";
+import { LoadingAuth } from "@/features/auth/components/auth-loading";
 
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      {
-        charSet: "utf-8",
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
-      },
-      {
-        title: "Cursor Clone",
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
+  {
+    head: () => ({
+      meta: [
+        {
+          charSet: "utf-8",
+        },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
+        {
+          title: "Cursor Clone",
+        },
+      ],
+      links: [
+        {
+          rel: "stylesheet",
+          href: appCss,
+        },
+      ],
+    }),
 
-  shellComponent: RootDocument,
-  loader: () => getThemeServerFn(),
-  notFoundComponent: NotFound,
-});
+    loader: () => getThemeServerFn(),
+    notFoundComponent: NotFound,
+    component: RootComponent,
+  },
+);
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const theme = Route.useLoaderData();
   return (
-    <ClerkProvider
-      appearance={{
-        theme: dark,
-      }}
-    >
-      <html lang="en" className={theme} suppressHydrationWarning>
-        <head>
-          <HeadContent />
-        </head>
-        <body>
+    <html lang="en" className={theme} suppressHydrationWarning>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        <Providers>
           <ThemeProvider theme={theme}>
             <div className="w-screen min-h-screen">
-              <main>{children}</main>
+              {children}
+              <AuthLoading>
+                <LoadingAuth />
+              </AuthLoading>
             </div>
+            <Toaster />
           </ThemeProvider>
+
           <TanStackDevtools
             config={{
               position: "bottom-right",
@@ -67,8 +78,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             ]}
           />
           <Scripts />
-        </body>
-      </html>
-    </ClerkProvider>
+        </Providers>
+      </body>
+    </html>
+  );
+}
+
+function RootComponent() {
+  return (
+    <RootDocument>
+      <Outlet />
+    </RootDocument>
   );
 }

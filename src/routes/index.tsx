@@ -1,30 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  SignedIn,
-  SignedOut,
-  SignIn,
-  UserButton,
-} from "@clerk/tanstack-react-start";
-import { useTheme } from "@/components/theme-provider";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "convex/_generated/api";
+import { Button } from "@/components/ui/button";
+import { generateSlug } from "random-word-slugs";
+import { requireAuth } from "@/lib/require-auth";
+import { UserButton } from "@clerk/tanstack-react-start";
 
 export const Route = createFileRoute("/")({
-  loader: () => {
-    console.log("home page");
+  server: {
+    middleware: [requireAuth],
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const {} = useTheme();
+  const data = useQuery(api.projects.get);
+  const add = useMutation(api.projects.create);
+
   return (
     <div>
-      <p>home page</p>
-      <SignedOut>
-        <SignIn forceRedirectUrl="/" />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+      <div>{JSON.stringify(data, null, 2)}</div>
+
+      <UserButton />
+      <Button onClick={() => add({ name: generateSlug(6) })}>add new</Button>
     </div>
   );
 }
