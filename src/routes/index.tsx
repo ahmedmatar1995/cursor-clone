@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { generateSlug } from "random-word-slugs";
 import { requireAuth } from "@/lib/require-auth";
 import { UserButton } from "@clerk/tanstack-react-start";
+import Ky from "ky";
 
 export const Route = createFileRoute("/")({
   server: {
@@ -23,6 +24,15 @@ function RouteComponent() {
 
       <UserButton />
       <Button onClick={() => add({ name: generateSlug(6) })}>add new</Button>
+      <Button
+        variant="outline"
+        onClick={async () => {
+          const response = await Ky.post("/api/background").json();
+          console.log(response);
+        }}
+      >
+        generate text
+      </Button>
     </div>
   );
 }
