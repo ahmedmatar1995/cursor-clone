@@ -6,6 +6,7 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 import { fileURLToPath, URL } from "url";
 import { nitro } from "nitro/vite";
 import tailwindcss from "@tailwindcss/vite";
+import { sentryTanstackStart } from "@sentry/tanstackstart-react";
 
 const config = defineConfig({
   resolve: {
@@ -24,6 +25,11 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
     tailwindcss(),
+    sentryTanstackStart({
+      org: "matar-wn",
+      project: "cursor-clone",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }),
   ],
 });
 

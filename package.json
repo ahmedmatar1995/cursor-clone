@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3000",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest run"
+    "dev:instrumented": "NODE_OPTIONS='--import ./instrument.server.mjs' vite dev --port 3000",
+    "build": "vite build && cp instrument.server.mjs .output/server",
+    "start": "node --import ./.output/server/instrument.server.mjs .output/server/index.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.20",
@@ -42,6 +42,8 @@
     "@radix-ui/react-toggle": "^1.1.10",
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@sentry/tanstackstart-react": "^10.38.0",
+    "@sentry/vite-plugin": "^4.9.0",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "^0.7.0",
     "@tanstack/react-query": "^5.90.20",
@@ -70,11 +72,13 @@
     "react-day-picker": "^9.13.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.1",
+    "react-icons": "^5.5.0",
     "react-resizable-panels": "^4.5.7",
     "recharts": "2.15.4",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
+    "unique-names-generator": "^4.7.1",
     "vaul": "^1.1.2",
     "vite-tsconfig-paths": "^6.0.2",
     "zod": "^4.3.6"

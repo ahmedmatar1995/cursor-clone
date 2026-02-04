@@ -2,6 +2,7 @@ import { inngest } from "./client";
 import { generateText } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { app } from "@/lib/firecrawl";
+import { NonRetriableError } from "inngest";
 
 const google = createGoogleGenerativeAI({
   apiKey: process.env.VITE_GOOGLE_GENERATIVE_AI_API_KEY as string,
@@ -44,5 +45,13 @@ export const generateDemo = inngest.createFunction(
     });
 
     return result;
+  },
+);
+
+export const generateError = inngest.createFunction(
+  { id: "demo-error" },
+  { event: "app/demo-error" },
+  async ({}) => {
+    throw new NonRetriableError("inngest error: something went wrong");
   },
 );
