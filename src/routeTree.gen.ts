@@ -13,6 +13,8 @@ import { Route as SentryDemoRouteImport } from './routes/sentry-demo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
 import { Route as ApiInngestRouteImport } from './routes/api/inngest'
+import { Route as ProjectsProjectIdIndexRouteImport } from './routes/projects/$projectId/index'
+import { Route as ProjectsProjectIdSettingsIndexRouteImport } from './routes/projects/$projectId/settings/index'
 
 const SentryDemoRoute = SentryDemoRouteImport.update({
   id: '/sentry-demo',
@@ -34,18 +36,33 @@ const ApiInngestRoute = ApiInngestRouteImport.update({
   path: '/api/inngest',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsProjectIdIndexRoute = ProjectsProjectIdIndexRouteImport.update({
+  id: '/projects/$projectId/',
+  path: '/projects/$projectId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsProjectIdSettingsIndexRoute =
+  ProjectsProjectIdSettingsIndexRouteImport.update({
+    id: '/projects/$projectId/settings/',
+    path: '/projects/$projectId/settings/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sentry-demo': typeof SentryDemoRoute
   '/api/inngest': typeof ApiInngestRoute
   '/sign-in/': typeof SignInIndexRoute
+  '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/': typeof ProjectsProjectIdSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sentry-demo': typeof SentryDemoRoute
   '/api/inngest': typeof ApiInngestRoute
   '/sign-in': typeof SignInIndexRoute
+  '/projects/$projectId': typeof ProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings': typeof ProjectsProjectIdSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +70,34 @@ export interface FileRoutesById {
   '/sentry-demo': typeof SentryDemoRoute
   '/api/inngest': typeof ApiInngestRoute
   '/sign-in/': typeof SignInIndexRoute
+  '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/': typeof ProjectsProjectIdSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sentry-demo' | '/api/inngest' | '/sign-in/'
+  fullPaths:
+    | '/'
+    | '/sentry-demo'
+    | '/api/inngest'
+    | '/sign-in/'
+    | '/projects/$projectId/'
+    | '/projects/$projectId/settings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sentry-demo' | '/api/inngest' | '/sign-in'
-  id: '__root__' | '/' | '/sentry-demo' | '/api/inngest' | '/sign-in/'
+  to:
+    | '/'
+    | '/sentry-demo'
+    | '/api/inngest'
+    | '/sign-in'
+    | '/projects/$projectId'
+    | '/projects/$projectId/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/sentry-demo'
+    | '/api/inngest'
+    | '/sign-in/'
+    | '/projects/$projectId/'
+    | '/projects/$projectId/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +105,8 @@ export interface RootRouteChildren {
   SentryDemoRoute: typeof SentryDemoRoute
   ApiInngestRoute: typeof ApiInngestRoute
   SignInIndexRoute: typeof SignInIndexRoute
+  ProjectsProjectIdIndexRoute: typeof ProjectsProjectIdIndexRoute
+  ProjectsProjectIdSettingsIndexRoute: typeof ProjectsProjectIdSettingsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +139,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiInngestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/$projectId/': {
+      id: '/projects/$projectId/'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId/'
+      preLoaderRoute: typeof ProjectsProjectIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$projectId/settings/': {
+      id: '/projects/$projectId/settings/'
+      path: '/projects/$projectId/settings'
+      fullPath: '/projects/$projectId/settings/'
+      preLoaderRoute: typeof ProjectsProjectIdSettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +161,8 @@ const rootRouteChildren: RootRouteChildren = {
   SentryDemoRoute: SentryDemoRoute,
   ApiInngestRoute: ApiInngestRoute,
   SignInIndexRoute: SignInIndexRoute,
+  ProjectsProjectIdIndexRoute: ProjectsProjectIdIndexRoute,
+  ProjectsProjectIdSettingsIndexRoute: ProjectsProjectIdSettingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
