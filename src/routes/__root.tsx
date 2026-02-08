@@ -40,7 +40,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
       ],
     }),
-
     loader: () => getThemeServerFn(),
     notFoundComponent: NotFound,
     component: RootComponent,
@@ -53,32 +52,36 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=merriweather-sans@800&display=swap"
+          rel="stylesheet"
+        ></link>
       </head>
       <body>
-        <Providers>
-          <ThemeProvider theme={theme}>
+        <div>
+          <Providers>
             <div className="w-screen min-h-screen">
               {children}
               <AuthLoading>
                 <LoadingAuth />
               </AuthLoading>
+              <Toaster />
             </div>
-            <Toaster />
-          </ThemeProvider>
 
-          <TanStackDevtools
-            config={{
-              position: "bottom-right",
-            }}
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-          <Scripts />
-        </Providers>
+            <TanStackDevtools
+              config={{
+                position: "bottom-right",
+              }}
+              plugins={[
+                {
+                  name: "Tanstack Router",
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+              ]}
+            />
+            <Scripts />
+          </Providers>
+        </div>
       </body>
     </html>
   );

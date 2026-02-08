@@ -5,7 +5,7 @@ import { SparklesIcon } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { ProjectsList } from "./projects-list";
 import { useCreateProject } from "../hooks/use-projects";
-import { generateSlug } from "random-word-slugs";
+
 import {
   uniqueNamesGenerator,
   adjectives,
@@ -62,7 +62,7 @@ export const ProjectsView = () => {
                   });
                   createProject({ name: projectName });
                 }}
-                className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none"
+                className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none text-foreground"
               >
                 <div className="flex items-center justify-between w-full">
                   <SparklesIcon className="size-4" />
@@ -73,7 +73,7 @@ export const ProjectsView = () => {
               <Button
                 variant="outline"
                 onClick={() => {}}
-                className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none"
+                className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none text-foreground"
               >
                 <div className="flex items-center justify-between w-full">
                   <FaGithub className="size-4" />

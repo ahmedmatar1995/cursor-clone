@@ -4,6 +4,7 @@ import { Id } from "convex/_generated/dataModel";
 import { FaGithub } from "react-icons/fa";
 import { Allotment } from "allotment";
 import { FileExplorer } from "./file-explorer";
+import { EditorView } from "@/features/editor/components/editor-view";
 
 interface Props {
   projectId: Id<"projects">;
@@ -73,7 +74,7 @@ export const ProjectView = ({ projectId }: Props) => {
               <FileExplorer projectId={projectId} />
             </Allotment.Pane>
             <Allotment.Pane snap preferredSize={DEFAULT_MAIN_SIZE}>
-              editor view
+              <EditorView projectId={projectId} />
             </Allotment.Pane>
           </Allotment>
         </div>

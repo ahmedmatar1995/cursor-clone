@@ -6,7 +6,7 @@ import { file } from "zod";
 import { arSA } from "date-fns/locale";
 import { addToRange } from "react-day-picker";
 import { Files } from "lucide-react";
-import { Id } from "./_generated/dataModel";
+import { Doc, Id } from "./_generated/dataModel";
 
 export const getFiles = query({
   args: {
@@ -301,5 +301,31 @@ export const updateFile = mutation({
     await ctx.db.patch("projects", file.projectId, {
       updatedAt: Date.now(),
     });
+  },
+});
+
+export const getFilePath = query({
+  args: {
+    id: v.id("files"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await verifyAuth(ctx);
+    const file = await ctx.db.get("files", args.id);
+    if (!file) throw new Error("file not found");
+    const project = await ctx.db.get("projects", file.projectId);
+    if (!project) throw new Error("project not found");
+    if (project.ownerId !== identity?.subject)
+      throw new Error("unAuthorized access to this project");
+    const path: { _id: Id<"files">; name: string }[] = [];
+    let currentId: Id<"files"> | null = args.id;
+    while (currentId) {
+      const file = (await ctx.db.get("files", currentId)) as
+        | Doc<"files">
+        | undefined;
+      if (!file) break;
+      path.unshift({ _id: file._id, name: file.name });
+      currentId = file.parentId as Id<"files">;
+    }
+    return path;
   },
 });

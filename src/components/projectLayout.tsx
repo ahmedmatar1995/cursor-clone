@@ -16,7 +16,7 @@ interface Props {
 
 export const ProjectLayout = ({ children, projectId }: Props) => {
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className="w-full h-screen flex flex-col bg-background text-foreground">
       <Navbar projectId={projectId} />
       <div className="flex-1 flex overflow-hidden">
         <Allotment

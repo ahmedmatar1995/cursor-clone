@@ -11,7 +11,7 @@ interface Props {
 
 export const ContinueCard = ({ data }: Props) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 text-foreground">
       <span className="text-xs text-muted-foreground">Last Updated</span>
       <Button
         variant="outline"
