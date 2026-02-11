@@ -14,6 +14,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
 import { Route as ApiInngestRouteImport } from './routes/api/inngest'
 import { Route as ProjectsProjectIdIndexRouteImport } from './routes/projects/$projectId/index'
+import { Route as ApiSuggestionIndexRouteImport } from './routes/api/suggestion/index'
+import { Route as ApiQuickEditIndexRouteImport } from './routes/api/quick-edit/index'
+import { Route as ApiMessagesIndexRouteImport } from './routes/api/messages/index'
 import { Route as ProjectsProjectIdSettingsIndexRouteImport } from './routes/projects/$projectId/settings/index'
 
 const SentryDemoRoute = SentryDemoRouteImport.update({
@@ -41,6 +44,21 @@ const ProjectsProjectIdIndexRoute = ProjectsProjectIdIndexRouteImport.update({
   path: '/projects/$projectId/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSuggestionIndexRoute = ApiSuggestionIndexRouteImport.update({
+  id: '/api/suggestion/',
+  path: '/api/suggestion/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiQuickEditIndexRoute = ApiQuickEditIndexRouteImport.update({
+  id: '/api/quick-edit/',
+  path: '/api/quick-edit/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiMessagesIndexRoute = ApiMessagesIndexRouteImport.update({
+  id: '/api/messages/',
+  path: '/api/messages/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectsProjectIdSettingsIndexRoute =
   ProjectsProjectIdSettingsIndexRouteImport.update({
     id: '/projects/$projectId/settings/',
@@ -53,6 +71,9 @@ export interface FileRoutesByFullPath {
   '/sentry-demo': typeof SentryDemoRoute
   '/api/inngest': typeof ApiInngestRoute
   '/sign-in/': typeof SignInIndexRoute
+  '/api/messages/': typeof ApiMessagesIndexRoute
+  '/api/quick-edit/': typeof ApiQuickEditIndexRoute
+  '/api/suggestion/': typeof ApiSuggestionIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/settings/': typeof ProjectsProjectIdSettingsIndexRoute
 }
@@ -61,6 +82,9 @@ export interface FileRoutesByTo {
   '/sentry-demo': typeof SentryDemoRoute
   '/api/inngest': typeof ApiInngestRoute
   '/sign-in': typeof SignInIndexRoute
+  '/api/messages': typeof ApiMessagesIndexRoute
+  '/api/quick-edit': typeof ApiQuickEditIndexRoute
+  '/api/suggestion': typeof ApiSuggestionIndexRoute
   '/projects/$projectId': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/settings': typeof ProjectsProjectIdSettingsIndexRoute
 }
@@ -70,6 +94,9 @@ export interface FileRoutesById {
   '/sentry-demo': typeof SentryDemoRoute
   '/api/inngest': typeof ApiInngestRoute
   '/sign-in/': typeof SignInIndexRoute
+  '/api/messages/': typeof ApiMessagesIndexRoute
+  '/api/quick-edit/': typeof ApiQuickEditIndexRoute
+  '/api/suggestion/': typeof ApiSuggestionIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/settings/': typeof ProjectsProjectIdSettingsIndexRoute
 }
@@ -80,6 +107,9 @@ export interface FileRouteTypes {
     | '/sentry-demo'
     | '/api/inngest'
     | '/sign-in/'
+    | '/api/messages/'
+    | '/api/quick-edit/'
+    | '/api/suggestion/'
     | '/projects/$projectId/'
     | '/projects/$projectId/settings/'
   fileRoutesByTo: FileRoutesByTo
@@ -88,6 +118,9 @@ export interface FileRouteTypes {
     | '/sentry-demo'
     | '/api/inngest'
     | '/sign-in'
+    | '/api/messages'
+    | '/api/quick-edit'
+    | '/api/suggestion'
     | '/projects/$projectId'
     | '/projects/$projectId/settings'
   id:
@@ -96,6 +129,9 @@ export interface FileRouteTypes {
     | '/sentry-demo'
     | '/api/inngest'
     | '/sign-in/'
+    | '/api/messages/'
+    | '/api/quick-edit/'
+    | '/api/suggestion/'
     | '/projects/$projectId/'
     | '/projects/$projectId/settings/'
   fileRoutesById: FileRoutesById
@@ -105,6 +141,9 @@ export interface RootRouteChildren {
   SentryDemoRoute: typeof SentryDemoRoute
   ApiInngestRoute: typeof ApiInngestRoute
   SignInIndexRoute: typeof SignInIndexRoute
+  ApiMessagesIndexRoute: typeof ApiMessagesIndexRoute
+  ApiQuickEditIndexRoute: typeof ApiQuickEditIndexRoute
+  ApiSuggestionIndexRoute: typeof ApiSuggestionIndexRoute
   ProjectsProjectIdIndexRoute: typeof ProjectsProjectIdIndexRoute
   ProjectsProjectIdSettingsIndexRoute: typeof ProjectsProjectIdSettingsIndexRoute
 }
@@ -146,6 +185,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsProjectIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/suggestion/': {
+      id: '/api/suggestion/'
+      path: '/api/suggestion'
+      fullPath: '/api/suggestion/'
+      preLoaderRoute: typeof ApiSuggestionIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/quick-edit/': {
+      id: '/api/quick-edit/'
+      path: '/api/quick-edit'
+      fullPath: '/api/quick-edit/'
+      preLoaderRoute: typeof ApiQuickEditIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/messages/': {
+      id: '/api/messages/'
+      path: '/api/messages'
+      fullPath: '/api/messages/'
+      preLoaderRoute: typeof ApiMessagesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projects/$projectId/settings/': {
       id: '/projects/$projectId/settings/'
       path: '/projects/$projectId/settings'
@@ -161,6 +221,9 @@ const rootRouteChildren: RootRouteChildren = {
   SentryDemoRoute: SentryDemoRoute,
   ApiInngestRoute: ApiInngestRoute,
   SignInIndexRoute: SignInIndexRoute,
+  ApiMessagesIndexRoute: ApiMessagesIndexRoute,
+  ApiQuickEditIndexRoute: ApiQuickEditIndexRoute,
+  ApiSuggestionIndexRoute: ApiSuggestionIndexRoute,
   ProjectsProjectIdIndexRoute: ProjectsProjectIdIndexRoute,
   ProjectsProjectIdSettingsIndexRoute: ProjectsProjectIdSettingsIndexRoute,
 }

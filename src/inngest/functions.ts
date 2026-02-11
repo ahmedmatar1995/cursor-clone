@@ -1,7 +1,7 @@
 import { inngest } from "./client";
 import { generateText } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { app } from "@/lib/firecrawl";
+import { firecrawl } from "@/lib/firecrawl";
 import { NonRetriableError } from "inngest";
 
 const google = createGoogleGenerativeAI({
@@ -24,7 +24,7 @@ export const generateDemo = inngest.createFunction(
     const scrapedContent = await step.run("scrape-urls", async () => {
       const results = await Promise.all(
         urls.map(async (url) => {
-          const result = await app.scrape(url, { formats: ["markdown"] });
+          const result = await firecrawl.scrape(url, { formats: ["markdown"] });
 
           return result.markdown ?? null;
         }),

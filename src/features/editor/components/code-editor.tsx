@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef } from "react";
-import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { customTheme } from "../extensions/theme";
@@ -8,6 +7,9 @@ import { indentWithTab } from "@codemirror/commands";
 import { minimap } from "../extensions/minimap";
 import { indentationMarkers } from "@replit/codemirror-indentation-markers";
 import { customSetup } from "../extensions/custom-setup";
+import { suggestion } from "../extensions/suggestions";
+import { quickEdit } from "../extensions/quick-edit";
+import { selectionTooltip } from "../extensions/selection-tooltip";
 
 interface Props {
   fileName: string;
@@ -29,6 +31,9 @@ export const CodeEditor = ({ fileName, initialValue, onChange }: Props) => {
       extensions: [
         customSetup,
         languageExtension,
+        suggestion(fileName),
+        quickEdit(fileName),
+        selectionTooltip(),
         oneDark,
         customTheme,
         keymap.of([indentWithTab]),
