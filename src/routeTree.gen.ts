@@ -18,6 +18,7 @@ import { Route as ApiSuggestionIndexRouteImport } from './routes/api/suggestion/
 import { Route as ApiQuickEditIndexRouteImport } from './routes/api/quick-edit/index'
 import { Route as ApiMessagesIndexRouteImport } from './routes/api/messages/index'
 import { Route as ProjectsProjectIdSettingsIndexRouteImport } from './routes/projects/$projectId/settings/index'
+import { Route as ApiMessagesCancelIndexRouteImport } from './routes/api/messages/cancel/index'
 
 const SentryDemoRoute = SentryDemoRouteImport.update({
   id: '/sentry-demo',
@@ -65,6 +66,11 @@ const ProjectsProjectIdSettingsIndexRoute =
     path: '/projects/$projectId/settings/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiMessagesCancelIndexRoute = ApiMessagesCancelIndexRouteImport.update({
+  id: '/api/messages/cancel/',
+  path: '/api/messages/cancel/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/api/quick-edit/': typeof ApiQuickEditIndexRoute
   '/api/suggestion/': typeof ApiSuggestionIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
+  '/api/messages/cancel/': typeof ApiMessagesCancelIndexRoute
   '/projects/$projectId/settings/': typeof ProjectsProjectIdSettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/api/quick-edit': typeof ApiQuickEditIndexRoute
   '/api/suggestion': typeof ApiSuggestionIndexRoute
   '/projects/$projectId': typeof ProjectsProjectIdIndexRoute
+  '/api/messages/cancel': typeof ApiMessagesCancelIndexRoute
   '/projects/$projectId/settings': typeof ProjectsProjectIdSettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/api/quick-edit/': typeof ApiQuickEditIndexRoute
   '/api/suggestion/': typeof ApiSuggestionIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
+  '/api/messages/cancel/': typeof ApiMessagesCancelIndexRoute
   '/projects/$projectId/settings/': typeof ProjectsProjectIdSettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/api/quick-edit/'
     | '/api/suggestion/'
     | '/projects/$projectId/'
+    | '/api/messages/cancel/'
     | '/projects/$projectId/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/api/quick-edit'
     | '/api/suggestion'
     | '/projects/$projectId'
+    | '/api/messages/cancel'
     | '/projects/$projectId/settings'
   id:
     | '__root__'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/api/quick-edit/'
     | '/api/suggestion/'
     | '/projects/$projectId/'
+    | '/api/messages/cancel/'
     | '/projects/$projectId/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -145,6 +157,7 @@ export interface RootRouteChildren {
   ApiQuickEditIndexRoute: typeof ApiQuickEditIndexRoute
   ApiSuggestionIndexRoute: typeof ApiSuggestionIndexRoute
   ProjectsProjectIdIndexRoute: typeof ProjectsProjectIdIndexRoute
+  ApiMessagesCancelIndexRoute: typeof ApiMessagesCancelIndexRoute
   ProjectsProjectIdSettingsIndexRoute: typeof ProjectsProjectIdSettingsIndexRoute
 }
 
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsProjectIdSettingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/messages/cancel/': {
+      id: '/api/messages/cancel/'
+      path: '/api/messages/cancel'
+      fullPath: '/api/messages/cancel/'
+      preLoaderRoute: typeof ApiMessagesCancelIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiQuickEditIndexRoute: ApiQuickEditIndexRoute,
   ApiSuggestionIndexRoute: ApiSuggestionIndexRoute,
   ProjectsProjectIdIndexRoute: ProjectsProjectIdIndexRoute,
+  ApiMessagesCancelIndexRoute: ApiMessagesCancelIndexRoute,
   ProjectsProjectIdSettingsIndexRoute: ProjectsProjectIdSettingsIndexRoute,
 }
 export const routeTree = rootRouteImport

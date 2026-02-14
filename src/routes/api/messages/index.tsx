@@ -11,8 +11,6 @@ const requestSchema = z.object({
   message: z.string(),
 });
 
-const internalKey = process.env.VITE_CONVEX_INTERNAL_KEY as string;
-
 export const Route = createFileRoute("/api/messages/")({
   server: {
     handlers: {
@@ -59,6 +57,32 @@ export const Route = createFileRoute("/api/messages/")({
           const projectId = conversation.projectId;
           console.log("Creating user message...");
 
+          const processingMessages = await convex.query(
+            api.system.getProjectProcessingMessages,
+            { projectId },
+          );
+
+          if (processingMessages.length > 0) {
+            await Promise.all(
+              processingMessages.map(async (msg) => {
+                await inngest.send({
+                  name: "app/cancel-message",
+                  data: {
+                    messageId: msg._id,
+                  },
+                });
+
+                await convex.mutation(api.system.updateMessageStatus, {
+                  messageId: msg._id,
+                  internalKey,
+                  status: "cancelled",
+                });
+
+                return msg._id;
+              }),
+            );
+          }
+
           const userMessageId = await convex.mutation(
             api.system.createMessage,
             {
@@ -90,6 +114,9 @@ export const Route = createFileRoute("/api/messages/")({
             name: "app/process-message",
             data: {
               messageId: assistantMessageId,
+              projectId,
+              conversationId,
+              message,
             },
           });
 
